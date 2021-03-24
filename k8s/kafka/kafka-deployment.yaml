@@ -1,23 +1,23 @@
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: kafka
+  name: broker
   namespace: dev-to
 spec:
   selector:
     matchLabels:
-      app: kafka
+      app: broker
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: kafka
+        app: broker
     spec:
       hostname: broker
       containers:
         - image: confluentinc/cp-enterprise-kafka:latest
-          name: kafka
+          name: broker
           env:
             # Use secret in real usage
             - name: KAFKA_BROKER_ID
@@ -25,25 +25,25 @@ spec:
             - name: KAFKA_ZOOKEEPER_CONNECT
               value: "zookeeper:2181"
             - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
-              value: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+              value: "PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT"
             - name: KAFKA_ADVERTISED_LISTENERS
-              value: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+              value: "PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092"
             - name: KAFKA_METRIC_REPORTERS
-              value: io.confluent.metrics.reporter.ConfluentMetricsReporter
+              value: "io.confluent.metrics.reporter.ConfluentMetricsReporter"
             - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
               value: "1"
             - name: KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS
               value: "0"
             - name: CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS
-              value: broker:29092
+              value: "broker:29092"
             - name: CONFLUENT_METRICS_REPORTER_ZOOKEEPER_CONNECT
-              value: zookeeper:2181
+              value: "zookeeper:2181"
             - name: CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS
               value: "1"
             - name: CONFLUENT_METRICS_ENABLE
               value: "true"
             - name: CONFLUENT_SUPPORT_CUSTOMER_ID
-              value: anonymous
+              value: "anonymous"
           ports:
             - containerPort: 9092
             - containerPort: 29092

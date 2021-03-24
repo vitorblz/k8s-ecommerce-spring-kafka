@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: kafka
+  name: broker
   namespace: dev-to
 spec:
   ports:
     - port: 29092
-      name: metric
+      name: broker
     - port: 9092
       name: listner
   selector:
-    app: kafka
+    app: broker
   clusterIP: None

@@ -32,7 +32,21 @@ git clone https://github.com/vitorblz/spring-kafka-microservice-checkout.git
 ```
 
 
+## 5- Gerar jar da aplicacao de checkout e buildar imagem docker
+```
+cd spring-kafka-microservice-checkout;
+./gradlew build -x test;
+docker build --force-rm -t java-checkout ./spring-kafka-microservice-checkout
+minikube cache add java-checkout:latest
+```
 
+## 5- Gerar jar da aplicacao de payment e buildar imagem docker
+```
+cd spring-kafka-microservice-payment;
+./gradlew build -x test;
+docker build --force-rm -t java-payment ./spring-kafka-microservice-payment
+minikube cache add java-payment:latest
+```
 
 ## Comandos uteis
 
@@ -49,4 +63,9 @@ minikube -p dev.to dashboard
 Deploy no namespace dev.to 
 ``` 
 kubectl apply -f k8s/postgres-checkout/
+```
+
+Acessa maquina do cluster
+``` 
+minikube -p dev.to ssh
 ```

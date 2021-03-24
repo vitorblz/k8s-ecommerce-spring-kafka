@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkout
+  namespace: dev-to
+  labels:
+    app: checkout
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: checkout
+  template:
+      metadata:
+        labels:
+          app: checkout
+      spec:
+        containers:
+          - name: checkout
+            image: java-checkout:latest
+            imagePullPolicy: Never
+            ports:
+              - containerPort: 8080
+                name: http
+            envFrom:
+              - configMapRef:
+                  name: checkout
+            livenessProbe:
+              httpGet:
+                path: /app/actuator/health/liveness
+                port: 8080
+              initialDelaySeconds: 30
+            readinessProbe:
+              httpGet:
+                path: /app/actuator/health/readiness
+                port: 8080
+              initialDelaySeconds: 30
+            resources:
+              requests:
+                memory: "512Mi"
+                cpu: "0.5"
+              limits:
+                memory: "1024Mi"
+                cpu: "1"
