@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-payment
+  namespace: dev-to
+spec:
+  ports:
+    - port: 5433
+  selector:
+    app: db-payment
+  clusterIP: None

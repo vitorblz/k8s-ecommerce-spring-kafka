@@ -1,0 +1,30 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: db-payment
+  namespace: dev-to
+spec:
+  selector:
+    matchLabels:
+      app: db-payment
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: db-payment
+    spec:
+      containers:
+        - image: postgres:12.3-alpine
+          name: db-payment
+          env:
+            # Use secret in real usage
+            - name: POSTGRES_PASSWORD
+              value: admin
+            - name: POSTGRES_USER
+              value: admin
+            - name: POSTGRES_DB
+              value: payment
+          ports:
+            - containerPort: 5432
+              name: db-payment

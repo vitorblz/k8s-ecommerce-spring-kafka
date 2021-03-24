@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-checkout
+  namespace: dev-to
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: db-checkout
+  clusterIP: None
