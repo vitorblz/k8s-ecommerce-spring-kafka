@@ -36,17 +36,60 @@ git clone https://github.com/vitorblz/spring-kafka-microservice-checkout.git
 ```
 cd spring-kafka-microservice-checkout;
 ./gradlew build -x test;
-docker build --force-rm -t java-checkout ./spring-kafka-microservice-checkout
+docker build --force-rm -t java-checkout .
 minikube -p dev.to image load java-checkout:latest
-minikube cache add java-checkout:latest
 ```
 
-## 5- Gerar jar da aplicacao de payment e buildar imagem docker
+## 5- Gerar jar da aplicacao de payment, fazer build imagem docker e subir imagem para o cluster
 ```
 cd spring-kafka-microservice-payment;
 ./gradlew build -x test;
-docker build --force-rm -t java-payment ./spring-kafka-microservice-payment
-minikube cache add java-payment:latest
+docker build --force-rm -t java-payment .
+minikube -p dev.to image load java-payment:latest 
+```
+
+## 6- Realizar deploy de todas as maquinas/bancodedados/serviços
+```
+kubectl apply -f k8s/postgres-checkout;
+kubectl apply -f k8s/postgres-payment;
+kubectl apply -f k8s/zookeeper;
+kubectl apply -f k8s/kafka;
+kubectl apply -f k8s/schema-registry;
+kubectl apply -f k8s/checkout;
+kubectl apply -f k8s/payment
+```
+
+## 7- Verificar ip de acesso do cluster
+```
+minikube -p dev.to ip
+```
+
+## 8- Verificar porta do servico checkout: (NodePort)
+```
+kubectl describe services checkout -n dev-to
+```
+
+
+## 8- Juntar NodePort e Ip para realizar request de teste exemplo POST: http://192.168.49.2:31833/v1/checkout/
+```
+{
+ "firstName": "Vitor",
+ "lastName": "Carvalho",
+ "email": "vitorblz@gmail.com",
+ "address": "aaa",
+ "complement": "300",
+ "country": "Brasil",
+ "state": "MG",
+ "cep": "",
+ "saveAddress": "",
+ "saveInfo": "",
+ "paymentMethod": "",
+ "cardName": "",
+ "cardNumber": "",
+ "cardDate": "",
+ "cardCvv": "",
+ "products": []
+}
 ```
 
 ## Comandos uteis
@@ -59,11 +102,6 @@ minikube -p dev.to start
 Logs das do que esta rodando no cluster 
 ```
 minikube -p dev.to logs
-```
-
-Ip do cluster: 
-``` 
-minikube -p dev.to ip
 ```
 
 Ver Dashboard de um profile: 
