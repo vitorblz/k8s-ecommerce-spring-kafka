@@ -6,9 +6,9 @@ metadata:
 spec:
   ports:
     - port: 29092
-      name: broker
+      name: plaintext
     - port: 9092
-      name: listner
+      name: jmx
   selector:
     app: broker
   clusterIP: None

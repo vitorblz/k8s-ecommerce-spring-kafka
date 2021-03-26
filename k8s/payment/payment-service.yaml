@@ -1,13 +1,13 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: checkout
+  name: payment
   namespace: dev-to
 spec:
   selector:
-    app: checkout
+    app: payment
   type: NodePort
   ports:
     - protocol: TCP
-      port: 8088
-      targetPort: 8088
+      port: 8082
+      targetPort: 8082

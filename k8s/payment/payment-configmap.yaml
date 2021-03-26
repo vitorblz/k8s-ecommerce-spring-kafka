@@ -2,14 +2,14 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: checkout
+  name: payment
   namespace: dev-to
 data:
-  DATABASE_SERVER_NAME: "db-checkout"
+  DATABASE_SERVER_NAME: "db-payment"
   DATABASE_USER_NAME: "admin"
   DATABASE_USER_PASSWORD: "admin"
-  DATABASE_NAME: "checkout"
-  DATABASE_PORT: "5432"
+  DATABASE_NAME: "payment"
+  DATABASE_PORT: "5433"
   SCHEMA_REGISTRY: "schema-registry"
   KAFKA_BROKERS: "broker"
   KAFKA_BOOTSTRAP_SERVERS: "broker:9092"

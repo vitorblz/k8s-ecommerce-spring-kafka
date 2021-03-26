@@ -25,6 +25,8 @@ spec:
               value: admin
             - name: POSTGRES_DB
               value: payment
+            - name: PGPORT
+              value: "5433"
           ports:
-            - containerPort: 5432
+            - containerPort: 5433
               name: db-payment
