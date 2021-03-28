@@ -27,6 +27,7 @@ kubectl create namespace dev-to
 
 ## 4- Clonar repositorios
 ```
+git clone https://github.com/vitorblz/k8s-ecommerce-spring-kafka
 git clone https://github.com/vitorblz/spring-kafka-microservice-payment;
 git clone https://github.com/vitorblz/spring-kafka-microservice-checkout.git
 ```
